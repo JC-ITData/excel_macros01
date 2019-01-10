@@ -40,3 +40,31 @@ Function ConcatIf(CriteriaRange As Range, strMatchCriteria As Integer, ConcatRan
     ConcatIf = strResults
     
 End Function
+
+Function GetColAlpha(intCol As Integer) As String
+    Dim intNumAs As Integer
+    
+    'intNumAs = Int(intCol / 26) ' This logic does not work for cols ending in Z, so replaced with IF statement below.
+    If (intCol / 26) - Int(intCol / 26) > 0 Then
+        intNumAs = Int(intCol / 26)
+    Else
+        intNumAs = Int((intCol - 1) / 26)
+    End If
+    If intNumAs >= 1 Then GetColAlpha = Chr(64 + intNumAs)
+    GetColAlpha = GetColAlpha & Chr(intCol - (intNumAs * 26) + 64)
+    
+End Function
+Function GetColInt(strCol As String) As Integer
+    Dim intCol As Integer
+    Dim intTemp As Integer
+    Dim i As Integer
+    Dim intLen As Integer
+    
+    intLen = Len(strCol)
+    intCol = 0
+    If intLen > 1 Then
+        intCol = (Asc(Left(strCol, 1)) - 64) * 26
+    End If
+    intCol = intCol + (Asc(Right(strCol, 1)) - 64)
+    GetColInt = intCol
+End Function
